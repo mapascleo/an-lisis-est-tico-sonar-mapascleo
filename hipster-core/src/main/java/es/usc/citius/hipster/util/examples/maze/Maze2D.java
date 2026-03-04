@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,39 +30,39 @@ import java.util.List;
  * Example usage:</p>
  *
  * <pre>
- *     {@code public static String[] example = new String[]{
- *                  "XXSXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
- *                  "XX XXXXXXXXXXXXX     XXXXXXXXXXX",
- *                  "XX    XXXXXXXXXX XXX XX     XXXX",
- *                  "XXXXX  XXXXXX    XXX XX XXX XXXX",
- *                  "XXX XX XXXXXX XX XXX XX  XX XXXX",
- *                  "XXX     XXXXX XXXXXX XXXXXX XXXX",
- *                  "XXXXXXX       XXXXXX        XXXX",
- *                  "XXXXXXXXXX XXXXX XXXXXXXXXXXXXXX",
- *                  "XXXXXXXXXX XX    XXXXX      XXXX",
- *                  "XXXXXXXXXX    XXXXXXXX XXXX XXXX",
- *                  "XXXXXXXXXXX XXXXXXXXXX XXXX XXXX",
- *                  "XXXXXXXXXXX            XXXX XXXX",
- *                  "XXXXXXXXXXXXXXXXXXXXXXXX XX XXXX",
- *                  "XXXXXX              XXXX XX XXXX",
- *                  "XXXXXX XXXXXXXXXXXX XX      XXXX",
- *                  "XXXXXX XXG   XXXXXX XXXX XXXXXXX",
- *                  "XXXXXX XXXXX   XXX            XX",
- *                  "XXXXXX XXXXXXX XXXXXXXXXXX XXXXX",
- *                  "XXXXXX XXXXXXX XXXXXXXXXXXXXXXXX",
- *                  "XXXXXX            XXXXXXXXXXXXXX"};
+ * {@code public static String[] example = new String[]{
+ * "XXSXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+ * "XX XXXXXXXXXXXXX      XXXXXXXXXXX",
+ * "XX    XXXXXXXXXX XXX XX     XXXX",
+ * "XXXXX  XXXXXX    XXX XX XXX XXXX",
+ * "XXX XX XXXXXX XX XXX XX  XX XXXX",
+ * "XXX     XXXXX XXXXXX XXXXXX XXXX",
+ * "XXXXXXX        XXXXXX        XXXX",
+ * "XXXXXXXXXX XXXXX XXXXXXXXXXXXXXX",
+ * "XXXXXXXXXX XX    XXXXX      XXXX",
+ * "XXXXXXXXXX    XXXXXXXX XXXX XXXX",
+ * "XXXXXXXXXXX XXXXXXXXXX XXXX XXXX",
+ * "XXXXXXXXXXX            XXXX XXXX",
+ * "XXXXXXXXXXXXXXXXXXXXXXXX XX XXXX",
+ * "XXXXXX              XXXX XX XXXX",
+ * "XXXXXX XXXXXXXXXXXX XX      XXXX",
+ * "XXXXXX XXG   XXXXXX XXXX XXXXXXX",
+ * "XXXXXX XXXXX   XXX            XX",
+ * "XXXXXX XXXXXXX XXXXXXXXXXX XXXXX",
+ * "XXXXXX XXXXXXX XXXXXXXXXXXXXXXXX",
+ * "XXXXXX            XXXXXXXXXXXXXX"};
  *
- *            Maze2D maze = new Maze2D(example);
- *     }
+ * Maze2D maze = new Maze2D(example);
+ * }
  * </pre>
  *
  * Symbol connected used by Maze2D:
  * <ul>
- *     <li>"X": occupied tile</li>
- *     <li>" ": empty tile</li>
- *     <li>"S": initial state (starting point)</li>
- *     <li>"G": goal state</li>
- *     <li>".": visited tile</li>
+ * <li>"X": occupied tile</li>
+ * <li>" ": empty tile</li>
+ * <li>"S": initial state (starting point)</li>
+ * <li>"G": goal state</li>
+ * <li>".": visited tile</li>
  * </ul>
  *
  * @author Pablo Rodríguez Mier <<a href="mailto:pablo.rodriguez.mier@usc.es">pablo.rodriguez.mier@usc.es</a>>
@@ -214,7 +214,7 @@ public class Maze2D {
             array.add(line);
         }
         br.close();
-        return new Maze2D((String[]) array.toArray());
+        return new Maze2D((String[]) array.toArray(new String[0]));
     }
 
     /**
