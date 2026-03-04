@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.Random;
 
@@ -34,24 +35,21 @@ import es.usc.citius.hipster.model.function.NodeExpander;
  * score - new score) / current temperature)) or the neighbouring function
  * (random selection by default). Note: costs are Double in this implementation
  * and have no type parameters.
- * 
- * see <a href="https://en.wikipedia.org/wiki/Simulated_annealing">in
+ * * see <a href="https://en.wikipedia.org/wiki/Simulated_annealing">in
  * Wikipedia</a> and <a href="http://katrinaeg.com/simulated-annealing.html">in
  * annealing search</a> for more details.
- * 
- * @param <A>
- *            class defining the action
+ * * @param <A>
+ * class defining the action
  * @param <S>
- *            class defining the state
+ * class defining the state
  * @param <C>
- *            class defining the cost, must implement
- *            {@link java.lang.Comparable}
+ * class defining the cost, must implement
+ * {@link java.lang.Comparable}
  * @param <N>
- *            type of the nodes
- * 
- * @author Christophe Moins <
- *         <a href="mailto:christophe.moins@yahoo.fr">christophe.moins@yahoo.fr
- *         </a>>
+ * type of the nodes
+ * * @author Christophe Moins <
+ * <a href="mailto:christophe.moins@yahoo.fr">christophe.moins@yahoo.fr
+ * </a>>
  */
 public class AnnealingSearch<A, S, N extends HeuristicNode<A, S, Double, N>> extends Algorithm<A, S, N> {
 
@@ -64,8 +62,8 @@ public class AnnealingSearch<A, S, N extends HeuristicNode<A, S, Double, N>> ext
 	private Double minTemp;
 	private AcceptanceProbability acceptanceProbability;
 	private SuccessorFinder<A, S, N> successorFinder;
-	// expander to find all the successors of a given node.
 	private NodeExpander<A, S, N> nodeExpander;
+    private final Random randIndGen = new Random();
 
 	public AnnealingSearch(N initialNode, NodeExpander<A, S, N> nodeExpander, Double alpha, Double minTemp,
 			AcceptanceProbability acceptanceProbability, SuccessorFinder<A, S, N> successorFinder) {
@@ -106,18 +104,14 @@ public class AnnealingSearch<A, S, N extends HeuristicNode<A, S, Double, N>> ext
 		if (successorFinder != null) {
 			this.successorFinder = successorFinder;
 		} else {
-			// default implementation of the successor: picks up a successor
-			// randomly
 			this.successorFinder = new SuccessorFinder<A, S, N>() {
 				@Override
 				public N estimate(N node, NodeExpander<A, S, N> nodeExpander) {
 					List<N> successors = new ArrayList<>();
-					// find a random successor
 					for (N successor : nodeExpander.expand(node)) {
 						successors.add(successor);
 					}
-					Random randIndGen = new Random();
-					return successors.get(Math.abs(randIndGen.nextInt()) % successors.size());
+					return successors.get(randIndGen.nextInt(successors.size()));
 				}
 			};
 		}
@@ -125,7 +119,6 @@ public class AnnealingSearch<A, S, N extends HeuristicNode<A, S, Double, N>> ext
 
 	@Override
 	public ASIterator iterator() {
-		// TODO Auto-generated method stub
 		return new ASIterator();
 	}
 
@@ -147,10 +140,12 @@ public class AnnealingSearch<A, S, N extends HeuristicNode<A, S, Double, N>> ext
 
 		@Override
 		public N next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
 			N currentNode = this.queue.poll();
 			if (curTemp > minTemp) {
 				N newNode = null;
-				// we add a loop to increase the effect of a change of alpha.
 				for (int i = 0; i < 100; i++) {
 					N randSuccessor = successorFinder.estimate(currentNode, nodeExpander);
 					Double score = randSuccessor.getScore();
@@ -176,28 +171,11 @@ public class AnnealingSearch<A, S, N extends HeuristicNode<A, S, Double, N>> ext
 		}
 	}
 
-	/**
-	 * Interface to compute the acceptance probability. If the new score is less
-	 * than the old score, 1 will be returned so that the node is selected.
-	 * Otherwise, we compute a probability that will decrease when the newScore
-	 * or the temperature increase.
-	 * 
-	 */
-
 	public interface AcceptanceProbability {
 		Double compute(Double oldScore, Double newScore, Double temp);
 	}
 
-	/**
-	 * Interface to find the successor of a node.
-	 *
-	 * @param <N>
-	 */
 	public interface SuccessorFinder<A, S, N extends Node<A, S, N>> {
-		/**
-		 * @param Node
-		 * @return the successor of a node.
-		 */
 		N estimate(N node, NodeExpander<A, S, N> nodeExpander);
 	}
 }
